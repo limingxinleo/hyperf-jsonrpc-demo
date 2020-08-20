@@ -51,7 +51,7 @@ return [
             ],
         ],
         [
-            'name' => 'jsonrpc-length-check',
+            'name' => 'jsonrpc-tcp-length-check',
             'type' => Server::SERVER_BASE,
             'host' => '0.0.0.0',
             'port' => 9504,
