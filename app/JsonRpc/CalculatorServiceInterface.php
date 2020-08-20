@@ -9,6 +9,9 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-return [
-    // Hyperf\AsyncQueue\Process\ConsumerProcess::class,
-];
+namespace App\JsonRpc;
+
+interface CalculatorServiceInterface
+{
+    public function add(int $v1, int $v2): int;
+}

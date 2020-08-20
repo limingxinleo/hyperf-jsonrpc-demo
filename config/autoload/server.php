@@ -25,10 +25,52 @@ return [
                 SwooleEvent::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
             ],
         ],
+        [
+            'name' => 'jsonrpc-http',
+            'type' => Server::SERVER_HTTP,
+            'host' => '0.0.0.0',
+            'port' => 9502,
+            'sock_type' => SWOOLE_SOCK_TCP,
+            'callbacks' => [
+                SwooleEvent::ON_REQUEST => [Hyperf\JsonRpc\HttpServer::class, 'onRequest'],
+            ],
+        ],
+        [
+            'name' => 'jsonrpc',
+            'type' => Server::SERVER_BASE,
+            'host' => '0.0.0.0',
+            'port' => 9503,
+            'sock_type' => SWOOLE_SOCK_TCP,
+            'callbacks' => [
+                SwooleEvent::ON_RECEIVE => [Hyperf\JsonRpc\TcpServer::class, 'onReceive'],
+            ],
+            'settings' => [
+                'open_eof_split' => true,
+                'package_eof' => "\r\n",
+                'package_max_length' => 1024 * 1024 * 2,
+            ],
+        ],
+        [
+            'name' => 'jsonrpc-length-check',
+            'type' => Server::SERVER_BASE,
+            'host' => '0.0.0.0',
+            'port' => 9504,
+            'sock_type' => SWOOLE_SOCK_TCP,
+            'callbacks' => [
+                SwooleEvent::ON_RECEIVE => ['LengthCheckTcpServer', 'onReceive'],
+            ],
+            'settings' => [
+                'open_length_check' => true,
+                'package_length_type' => 'N',
+                'package_length_offset' => 0,
+                'package_body_offset' => 4,
+                'package_max_length' => 1024 * 1024 * 2,
+            ],
+        ],
     ],
     'settings' => [
         'enable_coroutine' => true,
-        'worker_num' => 4,
+        'worker_num' => 1,
         'pid_file' => BASE_PATH . '/runtime/hyperf.pid',
         'open_tcp_nodelay' => true,
         'max_coroutine' => 100000,
