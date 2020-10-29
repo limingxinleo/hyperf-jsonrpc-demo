@@ -25,4 +25,9 @@ class CalculatorService implements CalculatorServiceInterface
         // 这里是服务方法的具体实现
         return $a + $b;
     }
+
+    public function repeat(int $value, int $length): string
+    {
+        return str_repeat((string) $value, $length);
+    }
 }

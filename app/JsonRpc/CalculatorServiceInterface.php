@@ -14,4 +14,6 @@ namespace App\JsonRpc;
 interface CalculatorServiceInterface
 {
     public function add(int $v1, int $v2): int;
+
+    public function repeat(int $value, int $length): string;
 }
